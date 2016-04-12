@@ -13,8 +13,10 @@ object QuickFixLogger {
 class QuickFixLogger(val output: File) extends BasicLogger {
   import QuickFixLogger._
 
-  val pw = new java.io.PrintWriter(output.getAbsolutePath())
-  pw.close()
+  if (output.exists()) {
+    val pw = new java.io.PrintWriter(output.getAbsolutePath())
+    pw.close()
+  }
 
   def log(level: Level.Value, message: ⇒ String): Unit = level match {
     case Level.Info  ⇒ handleInfoMessage(message)
